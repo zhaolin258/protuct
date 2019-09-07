@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bdqn.dao.UserMapper">
+    <select id="getCha" resultType="User" parameterType="String">
+        SELECT *FROM smbms_provider
+        <where>
+            <if test="proCode!=null and proCode!=''">proCode LIKE CONCAT('%',#{proCode},'%')</if>
+            <if test="proName!=null and proName!=''">and proName like CONCAT('%',#{proName},'%')</if>
+        </where>
+    </select>
+    <select id="getUser" resultType="User">
+        SELECT *FROM smbms_provider
+    </select>
+    <select id="getChaId" resultType="User" parameterType="int">
+         SELECT *FROM smbms_provider WHERE id=#{id}
+    </select>
+    <insert id="getinsert" parameterType="User">
+        INSERT INTO smbms_provider(proCode,proName,proContact,proPhone,proAddress,creationDate)
+        VALUES(#{proCode},#{proName},#{proContact},#{proPhone},#{proAddress},#{creationDate})
+    </insert>
+    <delete id="getdelete" parameterType="Integer">
+        DELETE FROM smbms_provider
+        WHERE id=#{id}
+    </delete>
+    <update id="getupdate" parameterType="User">
+            UPDATE smbms_provider
+            <trim prefix="set" suffixOverrides=",">
+                <if test="proCode!=null ||proCode!=''">proCode=#{proCode},</if>
+                <if test="proName!=null ||proName!=''">proName=#{proName},</if>
+                <if test="proContact!=null ||proContact!=''">proContact=#{proContact},</if>
+                <if test="proPhone!=null ||proPhone!=''">proPhone=#{proPhone},</if>
+                <if test="proAddress!=null ||proAddress!=''">proAddress=#{proAddress},</if>
+                <if test="creationDate!=null ||creationDate!=''">creationDate=#{creationDate},</if>
+            </trim>
+            WHERE id=#{id}
+    </update>
+</mapper>
